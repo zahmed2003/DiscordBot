@@ -5,6 +5,7 @@ import org.javacord.api.DiscordApiBuilder;
 import org.jointheleague.modules.ClockMessageListener;
 import org.jointheleague.modules.ElmoMessageListener;
 import org.jointheleague.modules.PingMessageListener;
+import org.jointheleague.modules.SsssMessageListener;
 
 public class Bot  {
 	private String token;
@@ -25,6 +26,8 @@ public class Bot  {
 		api.addMessageCreateListener(new PingMessageListener(channelName));
 		api.addMessageCreateListener(new ClockMessageListener(channelName));
 		api.addMessageCreateListener(new ElmoMessageListener(channelName));
+		api.addMessageCreateListener(new SsssMessageListener(channelName));
+		
 	}
 
 }
