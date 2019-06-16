@@ -7,8 +7,9 @@ import org.jointheleague.modules.DadJokes;
 import org.jointheleague.modules.ClockMessageListener;
 import org.jointheleague.modules.ComicMessageListener;
 import org.jointheleague.modules.ElmoMessageListener;
+import org.jointheleague.modules.MusicMessageListener;
 import org.jointheleague.modules.PingMessageListener;
-import org.jointheleague.modules.SsssMessageListener;
+
 
 public class Bot  {
 	private String token;
@@ -31,12 +32,7 @@ public class Bot  {
 		api.addMessageCreateListener(new ClockMessageListener(channelName));
 		api.addMessageCreateListener(new ComicMessageListener(channelName));
 		api.addMessageCreateListener(new ElmoMessageListener(channelName));
-<<<<<<< HEAD
-		api.addMessageCreateListener(new SsssMessageListener(channelName));
-		
-=======
-
->>>>>>> development
+		api.addMessageCreateListener(new MusicMessageListener(channelName));
 	}
 
 }
