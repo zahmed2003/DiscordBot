@@ -32,7 +32,7 @@ public class MusicMessageListener extends CustomMessageCreateListener{
 			AudioSourceManagers.registerRemoteSources(playerManager);
 			AudioPlayer player = playerManager.createPlayer();
 			String sb = "";
-			if (event.getMessageContent().startsWith("!play")) {
+			if (event.getMessageContent().contains("!play")) {
 				 event.getChannel().sendMessage("Playing");
 				String s = event.getMessageContent();
 				
