@@ -11,6 +11,10 @@ import java.util.Arrays;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 public class TextAdventure extends CustomMessageCreateListener {
+	// TODO THE PROBLEM:
+	// THERE IS A PROBLEM WITH THE LINE READER.
+	// IT IS READING THE STUFF FROM TextAdventureMap.txt AS QUESTION MARKS.
+	
 	String[][] cells;
 	ArrayList<ArrayList<String>> formats;
 
@@ -49,12 +53,7 @@ public class TextAdventure extends CustomMessageCreateListener {
 		lava = false;
 		inHouse = false;
 		
-		String[][] map = importMap("src/main/resources/TextAdventureMap.txt");
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[i].length; j++) {
-				System.out.println(map[i][j]);
-			}
-		}
+		cells = importMap("src/main/resources/TextAdventureMap.txt", cells);
 
 		x = 9;
 		y = 9;
@@ -137,7 +136,7 @@ public class TextAdventure extends CustomMessageCreateListener {
 		}
 		
 		// If the user wants to go in a direction
-		if (playing && !inHouse && !a.isEmpty()) {
+		if (playing && !inHouse && "nwse".contains(a)) {
 			showMap(event);
 			switch (a.toLowerCase()) {
 			case "w":
@@ -330,21 +329,20 @@ public class TextAdventure extends CustomMessageCreateListener {
 	}// fix house yes and no, need to put the listners for yes and no in handle
 		// method, wont work if its in CurrentCell, figure it out, use more booleans
 
-	public void importMap(String filename, String[][] cells) {
+	public String[][] importMap(String filename, String[][] cells) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(new File(filename)));
 			
-			while (br.ready()) {
+			for (int i = 0; br.ready(); i++) {
 				String s = br.readLine();
-				String[] row = new String[10];
 				
-				for (int i = 0; i < s.length(); i++) {
-					row[i] = convert(""+s.charAt(i), 1, 0);
+				for (int j = 0; j < s.length(); j++) {
+					cells[i][j] = convert(""+s.charAt(j), 1, 0);
 				}
-			
+			}
 			br.close();
 			
-			return (String[][]) res.toArray();
+			return cells;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -359,13 +357,13 @@ public class TextAdventure extends CustomMessageCreateListener {
 			String s = "";
 			for (int j = 0; j < cells[i].length; j++) {
 				if (i == x && j == y) {
-					s += ":slight_smile: ";
+					s += ":smiley: ";
 				} else {
 					s += convert(cells[i][j], 0, 2) + " ";
 				}
 			}
 
-			e.getChannel().sendMessage(s + Math.floor(((double) i + 2 / cells.length) * 10) + "% complete");
+			e.getChannel().sendMessage(s + Math.floor(((double) i + 1 / cells.length) * 10) + "% complete");
 		}
 	}
 
