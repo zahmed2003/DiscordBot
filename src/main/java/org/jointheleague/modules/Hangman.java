@@ -27,16 +27,37 @@ public class Hangman extends CustomMessageCreateListener {
 			createGame(event);
 		}
 		
-		if (event.getMessageContent().contains("!guess ") && GAME_RUNNING) {
-			guess(event);
+		else if(event.getMessageContent().equals("!hangman help"))
+		{
+			event.getChannel().sendMessage("begin hangman [word]: begin a game with the word [word], provided a game is not already running."
+					+ "\n\nguess [letter]: guess the letter [letter]."
+					+ "\n\nsee guesses: see the current incorrect guesses."
+					+ "\n\nsee word: see the currently known part of the word."
+					+ "\n\nsee lives: see how many attempts are left.");
 		}
 		
-		if (event.getMessageContent().contains("!see guesses") && GAME_RUNNING) {
-			event.getChannel().sendMessage("The current incorrect guesses are " + wrong_guesses.toString().substring(1, wrong_guesses.toString().length() - 1));
-		}
-		
-		if (event.getMessageContent().contains("!see word") && GAME_RUNNING) {
-			event.getChannel().sendMessage("The currently known part of the word is " + current_guess);
+		else if (GAME_RUNNING)
+		{
+			if (event.getMessageContent().contains("!guess ")) {
+				guess(event);
+			}
+			
+			else if (event.getMessageContent().contains("!see guesses")) {
+				event.getChannel().sendMessage("The current incorrect guesses are " + wrong_guesses.toString().substring(1, wrong_guesses.toString().length() - 1));
+			}
+			
+			else if (event.getMessageContent().contains("!see word")) {
+				event.getChannel().sendMessage("The currently known part of the word is " + current_guess);
+			}
+			
+			else if (event.getMessageContent().contains("!see word")) {
+				event.getChannel().sendMessage("The currently known part of the word is " + current_guess);
+			}
+			
+			else if(event.getMessageContent().equals("!see lives"))
+			{
+				event.getChannel().sendMessage("There are " + (NUM_MAX - num_incorrect) + " guesses remaining.");
+			}
 		}
 	}
 	
@@ -53,13 +74,13 @@ public class Hangman extends CustomMessageCreateListener {
 			num_incorrect = 0;
 			GAME_RUNNING = true;
 			
-			event.editMessage("!begin hangman");
+			event.deleteMessage();
 			
 			event.getChannel().sendMessage("A hangman game has started! The format is " + current_guess + ". Begin guessing now!");	
 		}
 			
 		else {
-			event.editMessage("!begin hangman");
+			event.deleteMessage();
 			event.getChannel().sendMessage("A game is already being played.");
 		}
 	}
@@ -90,7 +111,7 @@ public class Hangman extends CustomMessageCreateListener {
 			{
 				num_incorrect++;
 				wrong_guesses.add(c_guess);
-				event.getChannel().sendMessage("The guess of " + c_guess + " is incorrect! " + (NUM_MAX - num_incorrect) + " incorrect guesses remain.");
+				event.getChannel().sendMessage("The guess of " + c_guess + " is incorrect! " + (NUM_MAX - num_incorrect) + "  guesses remain.");
 				checkGameState(event);
 			}
 			
